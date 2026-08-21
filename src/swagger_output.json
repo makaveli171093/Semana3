@@ -11,6 +11,16 @@
     "http"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/status": {
       "get": {
         "description": "",
@@ -21,7 +31,7 @@
         }
       }
     },
-    "/api/estudiantes/": {
+    "/api/students/": {
       "get": {
         "tags": [
           "Estudiantes"
@@ -32,7 +42,7 @@
           {
             "name": "bootcamp",
             "in": "query",
-            "description": "Filtrar estudiantes por nombre del bootcamp (ej: Frontend, Backend)",
+            "description": "Filtrar estudiantes por name del bootcamp (ej: Frontend, Backend)",
             "required": false,
             "type": "string"
           }
@@ -56,7 +66,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nombre": {
+                "name": {
                   "example": "any"
                 },
                 "email": {
@@ -82,7 +92,7 @@
         }
       }
     },
-    "/api/estudiantes/{id}": {
+    "/api/students/{id}": {
       "get": {
         "tags": [
           "Estudiantes"
@@ -125,7 +135,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nombre": {
+                "name": {
                   "type": "string",
                   "example": "Maria"
                 },
@@ -142,8 +152,14 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -162,8 +178,14 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

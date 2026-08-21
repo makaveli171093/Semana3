@@ -1,35 +1,9 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
+import { estudiantes, guardarDatos } from "../data/db";
 
 const router = Router();
 
-interface Estudiante {
-  id: number;
-  name: string;
-  email: string;
-  bootcamp: string;
-}
-
-let estudiantes: Estudiante[] = [
-  {
-    id: 1,
-    name: "Jared",
-    email: "jared@mail.com",
-    bootcamp: "SQL",
-  },
-  {
-    id: 2,
-    name: "Angel",
-    email: "angel@mail.com",
-    bootcamp: "Frontend",
-  },
-  {
-    id: 3,
-    name: "Juan",
-    email: "juan@mail.com",
-    bootcamp: "sql",
-  },
-];
 let nextId = estudiantes.length + 1;
 
 router.get("/", function (req: Request, res: Response) {
@@ -74,7 +48,7 @@ router.get("/:id", function (req: Request, res: Response) {
   }
 });
 
-router.post("/", function (req: Request, res: Response) {
+router.post("/", async (req: Request, res: Response) => {
   /*
   #swagger.tags = ['Estudiantes']
     #swagger.summary = 'Crear estudiante'
@@ -88,13 +62,14 @@ router.post("/", function (req: Request, res: Response) {
     }
     const nuevoEstudiante = { id: nextId++, name, email, bootcamp };
     estudiantes.push(nuevoEstudiante);
+    await guardarDatos();
     res.status(201).json(nuevoEstudiante);
   } catch {
     res.status(500).json({ error: `Error interno` });
   }
 });
 
-router.put("/:id", function (req: Request, res: Response) {
+router.put("/:id", async (req: Request, res: Response) => {
   /*
     #swagger.tags = ['Estudiantes']
     #swagger.summary = 'Actualizar un estudiante existente'
@@ -128,13 +103,14 @@ router.put("/:id", function (req: Request, res: Response) {
       ...req.body,
       id: estudiantes[index].id,
     };
+    await guardarDatos();
     res.status(200).json(estudiantes[index]);
   } catch {
     res.status(500).json({ error: `Error interno` });
   }
 });
 
-router.delete("/:id", function (req: Request, res: Response) {
+router.delete("/:id", async (req: Request, res: Response) => {
   /*
     #swagger.tags = ['Estudiantes']
     #swagger.summary = 'Eliminar un estudiante existente'
@@ -146,9 +122,9 @@ router.delete("/:id", function (req: Request, res: Response) {
       res.status(404).json({ error: `Estudiante no encontrado` });
       return;
     }
-    const eliminado = estudiantes[index];
-    estudiantes = estudiantes.filter((e) => e.id !== Number(req.params.id));
-    res.status(200).json(eliminado);
+    const eliminado = estudiantes.splice(index, 1);
+    await guardarDatos();
+    res.status(200).json([{ mensaje: "Eliminado con exito", eliminado }]);
   } catch {
     res.status(500).json({ error: `Error interno` });
   }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --env-file=.env --watch src/index.ts ",
+    "dev": "pnpm swagger && tsx --env-file=.env --watch src/index.ts ",
     "swagger": "tsx src/swagger.ts"
   },
   "keywords": [],

@@ -3,13 +3,14 @@ import estudiantesRouter from "./routes/estudiantes";
 import swaggerUi from "swagger-ui-express";
 import swaggerOutput from "./swagger_output.json";
 import cors from "cors";
+import { cargarDatos } from "./data/db";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 
 app.use(
   cors({
-    origin: "*", // Permite peticiones desde Netlify o cualquier origen
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
@@ -28,6 +29,11 @@ app.get("/api/status", (req, res) => {
 
 app.use("/api/students", estudiantesRouter);
 
+async function persistencia() {
+  await cargarDatos();
+}
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+persistencia();

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Juan",
+    "email": "juan@mail.com",
+    "bootcamp": "base de datos"
+  },
+  {
+    "id": 1,
+    "name": "Jared",
+    "email": "jared@mail.com",
+    "bootcamp": "fullstack"
+  },
+  {
+    "id": 2,
+    "name": "Maria",
+    "email": "maria@mail.com",
+    "bootcamp": "frontend"
+  }
+]
