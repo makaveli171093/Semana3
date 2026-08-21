@@ -27,12 +27,23 @@ let estudiantes: Estudiante[] = [
     id: 3,
     nombre: "Juan",
     email: "juan@mail.com",
-    bootcamp: "BackEnd",
+    bootcamp: "sql",
   },
 ];
-let nextId = 2;
+let nextId = estudiantes.length + 1;
 
 router.get("/", function (req: Request, res: Response) {
+  /*
+    #swagger.tags = ['Estudiantes']
+    #swagger.summary = 'Obtener lista de estudiantes'
+    #swagger.description = "Obtiene la lista de estudiantes filtrados por Bootcamp si se envia en query"
+    #swagger.parameters['bootcamp'] = {
+      in: 'query',
+      description: 'Filtrar estudiantes por nombre del bootcamp (ej: Frontend, Backend)',
+      required: false,
+      type: 'string'
+    }
+  */
   const { bootcamp } = req.query;
 
   if (bootcamp && typeof bootcamp === "string") {
@@ -46,19 +57,29 @@ router.get("/", function (req: Request, res: Response) {
 });
 
 router.get("/:id", function (req: Request, res: Response) {
+  /*
+    #swagger.tags = ['Estudiantes']
+    #swagger.summary = 'Obtener lista de estudiantes por su ID'
+    #swagger.description = "Muestra al estudiante con ID requerido"
+   */
   try {
     const estudiante = estudiantes.find((e) => e.id === Number(req.params.id));
     if (!estudiante) {
       res.status(404).json({ error: `Estudiante no encontrado` });
       return;
     }
-    res.status(200).json(estudiantes);
+    res.status(200).json(estudiante);
   } catch {
     res.status(500).json({ error: `Error interno` });
   }
 });
 
 router.post("/", function (req: Request, res: Response) {
+  /*
+  #swagger.tags = ['Estudiantes']
+    #swagger.summary = 'Crear estudiante'
+    #swagger.description = "Crea un nuevo estudiante"
+  */
   try {
     const { nombre, email, bootcamp } = req.body;
     if (!email) {
@@ -74,6 +95,28 @@ router.post("/", function (req: Request, res: Response) {
 });
 
 router.put("/:id", function (req: Request, res: Response) {
+  /*
+    #swagger.tags = ['Estudiantes']
+    #swagger.summary = 'Actualizar un estudiante existente'
+    #swagger.description = 'Actualizar los datos de un estudiante con el ID enviado en path'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'ID del estudiante a actualizar',
+      required: true,
+      type: 'integer'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Datos a actualizar del estudiante',
+      required: true,
+      schema: {
+        nombre: 'Maria',
+        email: 'maria@mail.com',
+        bootcamp: 'Full Stack'
+      }
+    }
+  */
+
   try {
     const index = estudiantes.findIndex((e) => e.id === Number(req.params.id));
     if (index === -1) {
@@ -92,6 +135,11 @@ router.put("/:id", function (req: Request, res: Response) {
 });
 
 router.delete("/:id", function (req: Request, res: Response) {
+  /*
+    #swagger.tags = ['Estudiantes']
+    #swagger.summary = 'Eliminar un estudiante existente'
+    #swagger.description = 'Elimina a un estudiante con el ID enviado en path'
+ */
   try {
     const index = estudiantes.findIndex((e) => e.id === Number(req.params.id));
     if (index === -1) {
