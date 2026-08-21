@@ -5,7 +5,7 @@ const router = Router();
 
 interface Estudiante {
   id: number;
-  nombre: string;
+  name: string;
   email: string;
   bootcamp: string;
 }
@@ -13,19 +13,19 @@ interface Estudiante {
 let estudiantes: Estudiante[] = [
   {
     id: 1,
-    nombre: "Jared",
+    name: "Jared",
     email: "jared@mail.com",
     bootcamp: "SQL",
   },
   {
     id: 2,
-    nombre: "Angel",
+    name: "Angel",
     email: "angel@mail.com",
     bootcamp: "Frontend",
   },
   {
     id: 3,
-    nombre: "Juan",
+    name: "Juan",
     email: "juan@mail.com",
     bootcamp: "sql",
   },
@@ -39,7 +39,7 @@ router.get("/", function (req: Request, res: Response) {
     #swagger.description = "Obtiene la lista de estudiantes filtrados por Bootcamp si se envia en query"
     #swagger.parameters['bootcamp'] = {
       in: 'query',
-      description: 'Filtrar estudiantes por nombre del bootcamp (ej: Frontend, Backend)',
+      description: 'Filtrar estudiantes por name del bootcamp (ej: Frontend, Backend)',
       required: false,
       type: 'string'
     }
@@ -81,12 +81,12 @@ router.post("/", function (req: Request, res: Response) {
     #swagger.description = "Crea un nuevo estudiante"
   */
   try {
-    const { nombre, email, bootcamp } = req.body;
+    const { name, email, bootcamp } = req.body;
     if (!email) {
       res.status(400).json({ error: `El email es requerido` });
       return;
     }
-    const nuevoEstudiante = { id: nextId++, nombre, email, bootcamp };
+    const nuevoEstudiante = { id: nextId++, name, email, bootcamp };
     estudiantes.push(nuevoEstudiante);
     res.status(201).json(nuevoEstudiante);
   } catch {
@@ -110,7 +110,7 @@ router.put("/:id", function (req: Request, res: Response) {
       description: 'Datos a actualizar del estudiante',
       required: true,
       schema: {
-        nombre: 'Maria',
+        name: 'Maria',
         email: 'maria@mail.com',
         bootcamp: 'Full Stack'
       }
